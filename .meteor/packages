@@ -21,4 +21,5 @@ universe:modules
 universe:react-bootstrap
 react
 kadira:react-layout
-meteorhacks:flow-router
+kadira:flow-router
+aldeed:collection2
