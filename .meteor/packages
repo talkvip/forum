@@ -23,6 +23,13 @@ react
 kadira:react-layout
 kadira:flow-router
 aldeed:collection2
+alanning:roles
+reactive-var
+aldeed:autoform
+fortawesome:fontawesome
+momentjs:moment
+fourseven:scss
+reywood:bootstrap3-sass
 
 meteorhacks:npm
 cosmos:browserify
