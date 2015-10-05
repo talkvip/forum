@@ -1,0 +1,1 @@
+System.import('lib/test-import');

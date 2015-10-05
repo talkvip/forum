@@ -23,3 +23,8 @@ react
 kadira:react-layout
 kadira:flow-router
 aldeed:collection2
+
+meteorhacks:npm
+cosmos:browserify
+
+npm-container
