@@ -1,1 +1,1 @@
-System.import('lib/test-import');
+System.import('lib/router');

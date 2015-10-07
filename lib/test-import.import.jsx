@@ -1,3 +1,8 @@
-import redux from './redux'
+import {Redux} from './redux';
+import {ReactRedux} from './reactredux';
+import {Button} from './reactbootstrap';
 
-console.log(redux);
+// for test
+//console.log(Redux);
+//console.log(ReactRedux);
+//console.log(Button);
