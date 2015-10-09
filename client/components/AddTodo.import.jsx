@@ -1,19 +1,22 @@
+import {Button, Input} from '../../lib/reactbootstrap';
+
 let AddTodo = React.createClass({
   render() {
+    const addTodoBtn = (
+      <Button bsStyle="primary" onClick={(e) => this.handleCilck(e)}>
+        Add
+      </Button>
+    );
     return (
-      <div>
-        <input type="text" ref='input' />
-        <button onClick={(e) => this.handleCilck(e)}>
-          Add
-        </button>
-      </div>
+      <form>
+        <Input type="text" ref='input' placeholder="Enter text" buttonAfter={addTodoBtn}/>
+      </form>
     );
   },
   handleCilck(e) {
-    const node = React.findDOMNode(this.refs.input);
-    const text = node.value.trim();
+    const text = this.refs.input.getValue().trim()
     this.props.onAddClick(text);
-    node.value = '';
+    React.findDOMNode(this.refs.input).value = '';
   },
   propTypes() {
     return {

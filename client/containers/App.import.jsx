@@ -1,10 +1,21 @@
-import {connect} from '../../lib/reactredux';
-import {addTodo, completeTodo, setVisibilityFileter, VisibilityFilters} from '../actions';
+import {connect, dispatch} from '../../lib/reactredux';
+import {initTodos, addTodo, completeTodo, deleteTodo, setVisibilityFileter, VisibilityFilters} from '../actions';
 import AddTodo from '../components/AddTodo';
 import TodoList from '../components/TodoList';
 import Footer from '../components/Footer';
+import {Well} from '../../lib/reactbootstrap';
 
 let App = React.createClass({
+  mixins: [ReactMeteorData],
+  getMeteorData: function() {
+    //var self = this;
+    //FlowRouter.subsReady("todos", function() {
+    //  self.props.dispatch(initTodos(Todos.find().fetch()));
+    //});
+    return {
+      loading: !FlowRouter.subsReady("todos")
+    };
+  },
   propTypes() {
     return {
       visibleTodos: React.PropTypes.arrayOf(React.propTypes.shape({
@@ -18,6 +29,17 @@ let App = React.createClass({
       ]).isRequired
     }
   },
+  componentDidMount() {
+    var self = this;
+    FlowRouter.subsReady("todos", function() {
+      self.props.dispatch(initTodos(Todos.find().fetch()));
+    });
+    console.log('component mount');
+    console.log(this.props);
+  },
+  componentWillUnmount() {
+    console.log('refresh all');
+  },
   render() {
     const {dispatch, visibleTodos, visibilityFilter} = this.props;
     return (
@@ -25,14 +47,22 @@ let App = React.createClass({
         <AddTodo
           onAddClick={text => dispatch(addTodo(text))}>
         </AddTodo>
-        <TodoList
-          todos={visibleTodos}
-          onTodoClick={index => dispatch(completeTodo(index))}>
-        </TodoList>
-        <Footer
-          filter={visibilityFilter}
-          onFilterChange={nextFilter => dispatch(setVisibilityFileter(nextFilter))}>
-        </Footer>
+        { this.data.loading ?
+          <div className='loading-todos'>加载中...</div>
+          :
+          <div className='todos-container'>
+            <Footer
+              filter={visibilityFilter}
+              onFilterChange={nextFilter => dispatch(setVisibilityFileter(nextFilter))}>
+            </Footer>
+            <TodoList
+              todos={visibleTodos}
+              onTodoClick={(todo) => dispatch(completeTodo(todo))}
+              onDeleteTodo={(todo) => dispatch(deleteTodo(todo))}>
+            </TodoList>
+          </div>
+        }
+
       </div>
     )
   }
@@ -58,8 +88,3 @@ function select(state) {
 }
 
 export default connect(select)(App);
-
-
-
-
-

@@ -1,3 +1,4 @@
+
 let Todo = React.createClass({
   propTypes() {
     return {
@@ -6,15 +7,52 @@ let Todo = React.createClass({
       completed: React.PropTypes.bool.isRequired
     };
   },
+  handleRadioClick() {
+    this.props.onClick();
+  },
+  handleTodoTextClick(e) {
+    console.log('todo text click');
+  },
+  handleDeleteTodo() {
+    this.props.onDeleteTodo();
+  },
   render() {
+    const innerRadio = <input type="radio" aria-label="..." />;
     return (
       <li
-        onClick={this.props.onClick}
+        className='todo-li'
+        onClick={this.handleTodoTextClick}
         style={{
-          textDecoration: this.props.completed ? 'line-through': 'none',
+          color: this.props.completed ? '#ccc': '#333333',
           cursor: this.props.completed ? 'default': 'pointer'
-        }}>
-        {this.props.text}
+        }}
+        >
+        {this.props.completed ?
+          <input
+            type="checkbox"
+            className="toggle-complete"
+            checked
+            onClick={(e) => {
+            e.stopPropagation();
+            this.handleRadioClick();
+          }}/>
+          :
+          <input
+            type="checkbox"
+            className="toggle-complete"
+            onClick={(e) => {
+            e.stopPropagation();
+            this.handleRadioClick();
+          }}/>
+        }
+        <span className='todo-text'>
+          {this.props.text}
+        </span>
+        <span className="delete-todo glyphicon glyphicon-trash" aria-hidden="true"
+              onClick={(e) => {
+              e.stopPropagation();
+              this.handleDeleteTodo();
+        }}/>
       </li>
     );
   }

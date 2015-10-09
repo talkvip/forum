@@ -1,3 +1,5 @@
+import {Well, Button, ButtonGroup} from '../../lib/reactbootstrap';
+
 let Footer = React.createClass({
   propTypes() {
     return {
@@ -11,30 +13,27 @@ let Footer = React.createClass({
   },
   renderFilter(filter, name) {
     if (filter === this.props.filter) {
-      return name;
+      return (<Button className="btn btn-primary">{name}</Button>);
     }
     return (
-      <a href="#"
+      <Button href="#"
         onClick={e => {
           e.preventDefault();
           this.props.onFilterChange(filter)
         }}>
         {name}
-        </a>
+        </Button>
     );
   },
   render() {
     return (
-      <p>
-        Show:
-        {' '}
-        {this.renderFilter('SHOW_ALL', 'All')}
-        {', '}
-        {this.renderFilter('SHOW_COMPLETED', 'Completed')}
-        {', '}
-        {this.renderFilter('SHOW_ACTIVE', 'Active')}
-        .
-      </p>
+      <div className='display-control'>
+        <ButtonGroup>
+          {this.renderFilter('SHOW_ALL', '所有的')}
+          {this.renderFilter('SHOW_COMPLETED', '已完成')}
+          {this.renderFilter('SHOW_ACTIVE', '未完成')}
+        </ButtonGroup>
+      </div>
     );
   }
 });

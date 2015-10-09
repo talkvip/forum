@@ -3,20 +3,23 @@ import Todo from './Todo';
 let TodoList = React.createClass({
   propTypes() {
     return {
-      onTodoClick: PropTypes.func.isRequired,
-      todos: PropTypes.arrayOf(PropTypes.shape({
-        text: PropTypes.string.isRequired,
-        completed: PropTypes.bool.isRequired
+      onTodoClick: React.PropTypes.func.isRequired,
+      onDeleteTodo: React.PropTypes.func.isRequired,
+      todos: React.PropTypes.arrayOf(React.PropTypes.shape({
+        text: React.PropTypes.string.isRequired,
+        completed: React.PropTypes.bool.isRequired
       }).isRequired).isRequired
     }
   },
   render() {
     return (
-      <ul>
-        {this.props.todos.map((todo, index) =>
+      <ul className='todo-ul'>
+        {this.props.todos.map((todo) =>
           <Todo {...todo}
-                key={index}
-                onClick={() => this.props.onTodoClick(index)} />
+                key={todo._id}
+                onClick={() => this.props.onTodoClick(todo)}
+                onDeleteTodo={() => this.props.onDeleteTodo(todo)}
+          />
         )}
       </ul>
     );
