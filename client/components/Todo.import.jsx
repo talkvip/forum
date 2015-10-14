@@ -2,13 +2,13 @@
 let Todo = React.createClass({
   propTypes() {
     return {
-      onClick: React.PropTypes.func.isRequired,
+      onTodoClick: React.PropTypes.func.isRequired,
       text: React.PropTypes.string.isRequired,
       completed: React.PropTypes.bool.isRequired
     };
   },
   handleRadioClick() {
-    this.props.onClick();
+    this.props.onTodoClick();
   },
   handleTodoTextClick(e) {
     console.log('todo text click');
@@ -31,7 +31,7 @@ let Todo = React.createClass({
           <input
             type="checkbox"
             className="toggle-complete"
-            checked
+            defaultChecked
             onClick={(e) => {
             e.stopPropagation();
             this.handleRadioClick();

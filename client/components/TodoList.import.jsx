@@ -17,7 +17,7 @@ let TodoList = React.createClass({
         {this.props.todos.map((todo) =>
           <Todo {...todo}
                 key={todo._id}
-                onClick={() => this.props.onTodoClick(todo)}
+                onTodoClick={() => this.props.onTodoClick(todo)}
                 onDeleteTodo={() => this.props.onDeleteTodo(todo)}
           />
         )}

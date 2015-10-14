@@ -1,6 +1,16 @@
 import {Button, Input} from '../../lib/reactbootstrap';
 
 let AddTodo = React.createClass({
+  getInitialState() {
+    return {
+      todoText: ''
+    };
+  },
+  handleChange(e) {
+    this.setState({
+      todoText: e.target.value
+    });
+  },
   render() {
     const addTodoBtn = (
       <Button bsStyle="primary" onClick={(e) => this.handleCilck(e)}>
@@ -9,15 +19,24 @@ let AddTodo = React.createClass({
     );
     return (
       <form>
-        <Input type="text" ref='input' placeholder="Enter text" buttonAfter={addTodoBtn}/>
+        <Input type="text"
+               value={this.state.todoText}
+               placeholder="Enter text"
+               buttonAfter={addTodoBtn}
+               onChange={this.handleChange}/>
       </form>
     );
   },
   handleCilck(e) {
-    const text = this.refs.input.getValue().trim()
+    const text = this.state.todoText;
     this.props.onAddClick(text);
-    React.findDOMNode(this.refs.input).value = '';
+    this.setState({
+      todoText: ''
+    });
   },
+  //shouldComponentUpdate() {
+  //  return false;
+  //},
   propTypes() {
     return {
       onAddClick: React.PropTypes.func.isRequired

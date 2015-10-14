@@ -7,21 +7,24 @@ import {Well} from '../../lib/reactbootstrap';
 
 let App = React.createClass({
   mixins: [ReactMeteorData],
-  getMeteorData: function() {
-    //var self = this;
-    //FlowRouter.subsReady("todos", function() {
-    //  self.props.dispatch(initTodos(Todos.find().fetch()));
-    //});
+  getInitialState() {
     return {
-      loading: !FlowRouter.subsReady("todos")
+      todoFilter: VisibilityFilters.SHOW_ALL
     };
+  },
+  getMeteorData: function() {
+    let todos = selectTodos(Todos.find().fetch(), this.state.todoFilter);
+    return {
+      loading: !FlowRouter.subsReady("todos"),
+      todos: todos
+    };
+  },
+  changeFilter(filter) {
+    console.log(filter);
+    this.setState({todoFilter: filter});
   },
   propTypes() {
     return {
-      visibleTodos: React.PropTypes.arrayOf(React.propTypes.shape({
-        text: React.PropTypes.string.isRequired,
-        completed: React.PropTypes.bool.isRequired
-      })),
       visibilityFilter: React.PropTypes.oneOf([
         'SHOW_ALL',
         'SHOW_COMPLETED',
@@ -30,18 +33,14 @@ let App = React.createClass({
     }
   },
   componentDidMount() {
-    var self = this;
-    FlowRouter.subsReady("todos", function() {
-      self.props.dispatch(initTodos(Todos.find().fetch()));
-    });
-    console.log('component mount');
-    console.log(this.props);
+
   },
   componentWillUnmount() {
     console.log('refresh all');
   },
   render() {
-    const {dispatch, visibleTodos, visibilityFilter} = this.props;
+    console.log(this.data.todos);
+    const {dispatch} = this.props;
     return (
       <div>
         <AddTodo
@@ -52,17 +51,16 @@ let App = React.createClass({
           :
           <div className='todos-container'>
             <Footer
-              filter={visibilityFilter}
-              onFilterChange={nextFilter => dispatch(setVisibilityFileter(nextFilter))}>
+              filter={this.state.todoFilter}
+              onFilterChange={nextFilter => this.changeFilter(nextFilter)}>
             </Footer>
             <TodoList
-              todos={visibleTodos}
+              todos={this.data.todos}
               onTodoClick={(todo) => dispatch(completeTodo(todo))}
               onDeleteTodo={(todo) => dispatch(deleteTodo(todo))}>
             </TodoList>
           </div>
         }
-
       </div>
     )
   }
@@ -82,8 +80,8 @@ function selectTodos(todos, filter) {
 
 function select(state) {
   return {
-    visibleTodos: selectTodos(state.todos, state.visibilityFilter),
-    visibilityFilter: state.visibilityFilter
+    //visibleTodos: selectTodos(state.todos, state.visibilityFilter),
+    //visibilityFilter: state.visibilityFilter
   }
 }
 

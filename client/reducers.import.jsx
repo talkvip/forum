@@ -53,6 +53,7 @@ function todos(state=[], action = {}) {
       //  }),
       //  ...state.slice(action.index + 1)
       //];
+      console.log(action.todo._id);
       Meteor.call('Todos.delete', action.todo._id);
       return Todos.find().fetch();
     default:
